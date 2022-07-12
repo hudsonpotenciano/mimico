@@ -1,0 +1,8 @@
+{
+  "name": "mimico",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue",
+  "id": "8ee02b65"
+}

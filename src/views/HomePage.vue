@@ -1,59 +1,64 @@
 <template>
-  <ion-page>
-    <ion-header :translucent="true">
-      <ion-toolbar>
-        <ion-title>Inbox</ion-title>
-      </ion-toolbar>
-    </ion-header>
-    
+  <ion-page class="page">
     <ion-content :fullscreen="true">
-      <ion-refresher slot="fixed" @ionRefresh="refresh($event)">
-        <ion-refresher-content></ion-refresher-content>
-      </ion-refresher>
-      
-      <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title size="large">Inbox</ion-title>
-        </ion-toolbar>
-      </ion-header>
-      
-      <ion-list>
-        <MessageListItem v-for="message in messages" :key="message.id" :message="message" />
-      </ion-list>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="6">
+            <CardHome :page="'jogadores'" :title="'Jogadores'"></CardHome>
+          </ion-col>
+          <ion-col size="6">
+            <CardHome :page="'grupos'" :title="'Grupos'"></CardHome>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col size="6" v-for="category in categorys" :key="category.id">
+            <CardHome :title="category.name"></CardHome>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </ion-content>
   </ion-page>
 </template>
 
 <script lang="ts">
-import { IonContent, IonHeader, IonList, IonPage, IonRefresher, IonRefresherContent, IonTitle, IonToolbar } from '@ionic/vue';
-import MessageListItem from '@/components/MessageListItem.vue';
-import { defineComponent } from 'vue';
-import { getMessages } from '@/data/messages';
+import { IonContent, IonPage } from "@ionic/vue";
+import { defineComponent } from "vue";
+import CardHome from "../components/CardHome.vue";
 
 export default defineComponent({
-  name: 'HomePage',
+  name: "HomePage",
   data() {
     return {
-      messages: getMessages()
-    }
+      categorys: [
+        {
+          id: 1,
+          name: "Animais",
+          imageUrl: "",
+        },
+        {
+          id: 2,
+          name: "Música",
+          imageUrl: "",
+        },
+        {
+          id: 3,
+          name: "Filmes",
+          imageUrl: "",
+        },
+      ],
+    };
   },
-  methods: {
-    refresh: (ev: CustomEvent) => {
-      setTimeout(() => {
-        ev.detail.complete();
-      }, 3000);
-    }
-  },
+  methods: {},
   components: {
     IonContent,
-    IonHeader,
-    IonList,
     IonPage,
-    IonRefresher,
-    IonRefresherContent,
-    IonTitle,
-    IonToolbar,
-    MessageListItem
+    CardHome,
   },
 });
 </script>
+
+<style lang="css">
+.page {
+}
+</style>

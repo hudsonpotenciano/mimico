@@ -22,11 +22,49 @@ import '@ionic/vue/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import './theme/global.css';
+import {
+  IonPage,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonContent,
+  IonInput,
+  IonButton,
+  IonAlert,
+  IonList,
+  IonItem,
+  IonButtons,
+  IonBackButton,
+  IonIcon,
+  IonRippleEffect,
+  IonFooter
+} from "@ionic/vue";
+import ComponentBase from "./components/ComponentBase.vue";
+import ItemRipple from "./components/ItemRipple.vue";
 
 const app = createApp(App)
   .use(IonicVue)
   .use(router);
-  
+
+app.component('ion-page', IonPage);
+app.component('ion-header', IonHeader)
+app.component('ion-toolbar', IonToolbar)
+app.component('ion-list', IonList)
+app.component('ion-button', IonButton)
+app.component('ion-item', IonItem)
+app.component('ion-input', IonInput)
+app.component('ion-content', IonContent)
+app.component('ion-alert', IonAlert)
+app.component('ion-title', IonTitle)
+app.component('ion-buttons', IonButtons)
+app.component('ion-back-button', IonBackButton)
+app.component('ion-icon', IonIcon)
+app.component('ion-ripple-effect', IonRippleEffect)
+app.component('ComponentBase', ComponentBase)
+app.component('ItemRipple', ItemRipple)
+app.component('ion-footer', IonFooter)
+
 router.isReady().then(() => {
   app.mount('#app');
 });

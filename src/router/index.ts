@@ -4,6 +4,7 @@ import HomePage from '../views/HomePage.vue'
 import PlayPage from '../views/PlayPage.vue'
 import NovoGrupo from '../views/NovoGrupo.vue'
 import GruposPage from '../views/GruposPage.vue'
+import NovoJogador from '../views/NovoJogador.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -21,7 +22,7 @@ const routes: Array<RouteRecordRaw> = [
     component: GruposPage
   },
   {
-    path: '/play',
+    path: '/play/:categoryId',
     name: 'play',
     component: PlayPage
   }
@@ -30,6 +31,12 @@ const routes: Array<RouteRecordRaw> = [
     path: '/NovoGrupo',
     name: 'NovoGrupo',
     component: NovoGrupo
+  }
+  ,
+  {
+    path: '/NovoJogador',
+    name: 'NovoJogador',
+    component: NovoJogador
   }
   ,
   {

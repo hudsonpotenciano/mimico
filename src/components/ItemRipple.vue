@@ -7,8 +7,11 @@
       <ion-icon v-if="icon" :name="icon"></ion-icon>
       <h2 v-if="!icon">{{title}}</h2>
       <span v-else>{{title}}</span>
-      <span v-if="score">{{score}}</span>
     </ion-label>
+    <span v-if="score" slot="end">
+      <ion-icon name="trophy-outline"></ion-icon>
+      {{score}}
+    </span>
     <ion-ripple-effect></ion-ripple-effect>
   </ion-item>
 </template>
@@ -42,7 +45,6 @@ export default {
 .custom-item {
   border-radius: 15px;
   box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
-
   margin: 10px;
 }
 ion-icon {

@@ -1,7 +1,7 @@
 <template>
   <ion-page class="page">
     <ion-content :fullscreen="true">
-      <ion-grid>
+      <ion-grid class="ion-padding">
         <ion-row>
           <ion-col size="6">
             <CardHome :page="'jogadores'" :title="'Jogadores'"></CardHome>
@@ -13,7 +13,7 @@
 
         <ion-row>
           <ion-col size="6" v-for="category in categorys" :key="category.id">
-            <CardHome :title="category.name"></CardHome>
+            <CardHome :page="'Play/1'" :title="category.name"></CardHome>
           </ion-col>
         </ion-row>
       </ion-grid>

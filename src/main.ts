@@ -38,7 +38,9 @@ import {
   IonBackButton,
   IonIcon,
   IonRippleEffect,
-  IonFooter
+  IonFooter,
+  IonSegment,
+  IonSegmentButton,
 } from "@ionic/vue";
 import ComponentBase from "./components/ComponentBase.vue";
 import ItemRipple from "./components/ItemRipple.vue";
@@ -64,6 +66,9 @@ app.component('ion-ripple-effect', IonRippleEffect)
 app.component('ComponentBase', ComponentBase)
 app.component('ItemRipple', ItemRipple)
 app.component('ion-footer', IonFooter)
+app.component('ion-segment', IonSegment)
+app.component('ion-segment-button', IonSegmentButton)
+
 
 router.isReady().then(() => {
   app.mount('#app');

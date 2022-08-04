@@ -35,12 +35,12 @@ export default {
 </script>
 <style scoped>
 .card {
-  --border-radius: 30px;
+  --border-radius: 20px;
   height: 80px;
   width: 100%;
   background-color: var(--ion-color-primary);
   box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
-  border-radius: 35px;
+  border-radius: 20px;
 }
 .double-card {
   height: 100%;
@@ -52,8 +52,8 @@ export default {
   align-self: center;
   flex: 1;
 }
-ion-label {
-  margin-left: 10px;
-  font-size: 40px;
+ion-label h2 {
+  /* margin-left: 10px; */
+  font-size: 20px;
 }
 </style>

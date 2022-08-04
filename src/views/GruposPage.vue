@@ -1,12 +1,10 @@
 <template>
-  <ion-page>
-    <ComponentBase :isDefaultFooter="'true'" :pageDefaultBackLink="'Home'" :pageTitle="'Grupos'">
-      <ion-list>
-        <ItemRipple :title="'Grupo 1'"></ItemRipple>
-        <ItemRipple :link="'NovoGrupo'" :icon="'add-outline'" :title="'Adicionar'"></ItemRipple>
-      </ion-list>
-    </ComponentBase>
-  </ion-page>
+  <ComponentBase :isDefaultFooter="'true'" :pageDefaultBackLink="'Home'" :pageTitle="'Grupos'">
+    <ion-list class="ion-padding">
+      <ItemRipple :title="'Grupo 1'"></ItemRipple>
+      <ItemRipple :link="'NovoGrupo'" :icon="'add-outline'" :title="'Adicionar'"></ItemRipple>
+    </ion-list>
+  </ComponentBase>
 </template>
 
 <script lang="ts">

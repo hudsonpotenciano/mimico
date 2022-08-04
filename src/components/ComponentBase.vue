@@ -12,7 +12,14 @@
       </ion-toolbar>
     </ion-header>-->
     <ion-content>
-      <h1 class="page-title">{{pageTitle}}</h1>
+      <ion-grid>
+        <ion-row v-if="alignTitleCenter" class="ion-justify-content-center">
+          <h1 class="page-title">{{pageTitle}}</h1>
+        </ion-row>
+        <ion-row v-else>
+          <h1 class="page-title page-title-padding">{{pageTitle}}</h1>
+        </ion-row>
+      </ion-grid>
       <slot />
     </ion-content>
     <ion-footer v-if="isDefaultFooter">
@@ -26,6 +33,7 @@
         <ion-col size="2"></ion-col>
       </ion-row>
     </ion-footer>
+    <slot v-else name="footer"></slot>
   </ion-page>
 </template>
 
@@ -35,6 +43,9 @@ export default {
   props: {
     pageTitle: {
       Type: String,
+    },
+    alignTitleCenter: {
+      Type: Boolean,
     },
     pageDefaultBackLink: {
       Type: String,
@@ -49,7 +60,9 @@ export default {
 
 <style scoped>
 .page-title {
-  padding-left: 20px;
   font-size: 2rem;
+}
+.page-title-padding {
+  padding-left: 20px;
 }
 </style>

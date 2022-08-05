@@ -15,12 +15,12 @@
         <ion-grid>
           <ion-row>
             <ion-col size="6" class="ion-align-self-end">
-              <ion-button :router-link="'Grupos'" expand="full">
+              <ion-button color="button-round" :router-link="'Grupos'" expand="full">
                 <ion-label>Voltar</ion-label>
               </ion-button>
             </ion-col>
             <ion-col size="6">
-              <ion-button color="success" expand="full">
+              <ion-button class="button-round" color="success" expand="full">
                 <ion-label>Salvar</ion-label>
               </ion-button>
             </ion-col>

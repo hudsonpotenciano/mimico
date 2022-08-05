@@ -21,7 +21,7 @@ import '@ionic/vue/css/flex-utils.css';
 import '@ionic/vue/css/display.css';
 
 /* Theme variables */
-import './theme/variables.css';
+// import './theme/variables.css';
 import './theme/global.css';
 import {
   IonPage,
@@ -41,13 +41,22 @@ import {
   IonFooter,
   IonSegment,
   IonSegmentButton,
+  IonProgressBar,
+  IonModal,
+  IonRadioGroup,
+  IonRadio
 } from "@ionic/vue";
 import ComponentBase from "./components/ComponentBase.vue";
 import ItemRipple from "./components/ItemRipple.vue";
+import SelectUserModal from "./components/SelectUserModal.vue";
 
 const app = createApp(App)
   .use(IonicVue)
   .use(router);
+
+app.component('SelectUserModal', SelectUserModal)
+app.component('ComponentBase', ComponentBase)
+app.component('ItemRipple', ItemRipple)
 
 app.component('ion-page', IonPage);
 app.component('ion-header', IonHeader)
@@ -63,11 +72,14 @@ app.component('ion-buttons', IonButtons)
 app.component('ion-back-button', IonBackButton)
 app.component('ion-icon', IonIcon)
 app.component('ion-ripple-effect', IonRippleEffect)
-app.component('ComponentBase', ComponentBase)
-app.component('ItemRipple', ItemRipple)
 app.component('ion-footer', IonFooter)
 app.component('ion-segment', IonSegment)
 app.component('ion-segment-button', IonSegmentButton)
+app.component('ion-progress-bar', IonProgressBar)
+app.component('ion-modal', IonModal)
+app.component('ion-radio-group', IonRadioGroup)
+app.component('ion-radio', IonRadio)
+
 
 
 router.isReady().then(() => {

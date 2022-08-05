@@ -26,7 +26,7 @@
       <ion-row>
         <ion-col size="2"></ion-col>
         <ion-col size="8">
-          <ion-button style="width:100%" :router-link="pageDefaultBackLink">
+          <ion-button class="button-round" expand="full" :router-link="pageDefaultBackLink">
             <ion-label>Voltar</ion-label>
           </ion-button>
         </ion-col>

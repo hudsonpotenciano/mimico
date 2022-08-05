@@ -5,5 +5,19 @@
     --ion-background-color: #ffd600;
     --ion-color-primary:#6601ea;
     --ion-color-secondary:#ffd600;
+    --custom-boxshadow:rgba(0, 0, 0, 0.4) 0px 2px 4px,rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+    --border-radius:25px;
+    --custom-border-radius:25px;
 }
 
+ion-button{
+    border-radius: var(--custom-border-radius);
+}
+.button-native{
+    border-radius: var(--custom-border-radius);
+
+}
+ion-segment{
+    --ion-background-color: #6601ea;
+    --color-checked: white;
+}

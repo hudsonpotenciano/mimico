@@ -44,7 +44,7 @@ export default {
 <style scoped>
 .custom-item {
   border-radius: var(--custom-border-radius);
-  box-shadow: var(--custom-boxshadow);
+  /* box-shadow: var(--custom-boxshadow); */
   margin: 10px;
 }
 ion-icon {

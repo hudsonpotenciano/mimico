@@ -6,14 +6,14 @@
           <ion-col size="6">
             <CardHome :page="'jogadores'" :title="'Jogadores'"></CardHome>
           </ion-col>
-          <ion-col size="6">
+          <!-- <ion-col size="6">
             <CardHome :page="'grupos'" :title="'Grupos'"></CardHome>
-          </ion-col>
+          </ion-col>-->
         </ion-row>
 
         <ion-row>
-          <ion-col size="6" v-for="category in categorys" :key="category.id">
-            <CardHome :page="'Play/1'" :title="category.name"></CardHome>
+          <ion-col size="6" v-for="categoria in categorias" :key="categoria.id">
+            <CardHome :page="'Play/1'" :title="categoria.nome"></CardHome>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -25,29 +25,37 @@
 import { IonContent, IonPage } from "@ionic/vue";
 import { defineComponent } from "vue";
 import CardHome from "../components/CardHome.vue";
+import { setJogador } from "../storage/jogadores-storage-service";
 
 export default defineComponent({
   name: "HomePage",
   data() {
     return {
-      categorys: [
+      categorias: [
         {
           id: 1,
-          name: "Animais",
+          nome: "Animais",
           imageUrl: "",
         },
         {
           id: 2,
-          name: "Música",
+          nome: "Música",
           imageUrl: "",
         },
         {
           id: 3,
-          name: "Filmes",
+          nome: "Filmes",
           imageUrl: "",
         },
       ],
     };
+  },
+  mounted() {
+    setJogador({
+      nome: "Hudson",
+      pontuacao: 14,
+      id: 0,
+    });
   },
   methods: {},
   components: {

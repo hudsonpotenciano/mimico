@@ -19,6 +19,7 @@ import '@ionic/vue/css/text-alignment.css';
 import '@ionic/vue/css/text-transformation.css';
 import '@ionic/vue/css/flex-utils.css';
 import '@ionic/vue/css/display.css';
+import './registerServiceWorker';
 
 /* Theme variables */
 // import './theme/variables.css';
@@ -44,7 +45,8 @@ import {
   IonProgressBar,
   IonModal,
   IonRadioGroup,
-  IonRadio
+  IonRadio,
+  IonVirtualScroll
 } from "@ionic/vue";
 import ComponentBase from "./components/ComponentBase.vue";
 import ItemRipple from "./components/ItemRipple.vue";
@@ -79,8 +81,7 @@ app.component('ion-progress-bar', IonProgressBar)
 app.component('ion-modal', IonModal)
 app.component('ion-radio-group', IonRadioGroup)
 app.component('ion-radio', IonRadio)
-
-
+app.component('ion-virtual-scroll', IonVirtualScroll)
 
 router.isReady().then(() => {
   app.mount('#app');

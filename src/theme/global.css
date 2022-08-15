@@ -21,3 +21,14 @@ ion-segment{
     --ion-background-color: #6601ea;
     --color-checked: white;
 }
+
+.card-branco {
+    padding: 10px;
+    --ion-background-color: white;
+    background-color: white;
+    border-radius: 25px;
+    box-shadow: var(--custom-boxshadow);
+}
+.item-input{
+    --ion-background-color: white;
+}

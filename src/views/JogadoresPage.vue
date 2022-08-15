@@ -2,8 +2,10 @@
   <ComponentBase :isDefaultFooter="'true'" :pageDefaultBackLink="'Home'" :pageTitle="'Jogadores'">
     <ion-list class="ion-padding">
       <ItemRipple
-        :title="'Hudson'"
-        :score="150"
+        v-for="jogador in jogadores"
+        :key="jogador.id"
+        :title="jogador.nome"
+        :score="jogador.pontuacao"
       ></ItemRipple>
       <ItemRipple :link="'NovoJogador'" :icon="'add-outline'" :title="'Adicionar'"></ItemRipple>
     </ion-list>
@@ -12,14 +14,24 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import {
+  setJogador,
+  getJogadorById,
+  getJogadores,
+} from "../storage/jogadores-storage-service";
 
 export default defineComponent({
   name: "JogadoresPage",
   data() {
-    return {};
+    return {
+      jogadores: [],
+    };
   },
   components: {},
   methods: {},
+  async mounted() {
+    this.jogadores = await getJogadores();
+  },
 });
 </script>
 

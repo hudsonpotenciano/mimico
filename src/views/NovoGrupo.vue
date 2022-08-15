@@ -7,9 +7,14 @@
       </ion-item>
     </ion-list>
     <ion-list>
-      <ItemRipple :title="'Hudson'"></ItemRipple>
-      <ItemRipple :icon="'add-outline'" :title="'Adicionar Jogador'"></ItemRipple>
+      <ItemRipple id="modal-addjogador" :icon="'add-outline'" :title="'Adicionar Jogador'"></ItemRipple>
     </ion-list>
+    <SelectUserModal
+      :onSelect="onSelectJogador"
+      :title="'Quem Acertou?'"
+      :trigger="'modal-addjogador'"
+      :multipleSelect="true"
+    ></SelectUserModal>
     <template #footer>
       <ion-footer>
         <ion-grid>
@@ -37,10 +42,17 @@ import { defineComponent } from "vue";
 export default defineComponent({
   name: "NovoGrupo",
   data() {
-    return {};
+    return {
+      jogadores: [],
+    };
   },
   components: {},
-  methods: {},
+  methods: {
+    onSelectJogador(user: any[]) {
+      debugger;
+      this.jogadores.push(user[0] as never);
+    },
+  },
 });
 </script>
 

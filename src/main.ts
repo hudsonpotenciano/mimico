@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router';
+import './registerServiceWorker';
 
 import { IonicVue } from '@ionic/vue';
 
@@ -19,7 +20,6 @@ import '@ionic/vue/css/text-alignment.css';
 import '@ionic/vue/css/text-transformation.css';
 import '@ionic/vue/css/flex-utils.css';
 import '@ionic/vue/css/display.css';
-import './registerServiceWorker';
 
 /* Theme variables */
 // import './theme/variables.css';
@@ -46,7 +46,12 @@ import {
   IonModal,
   IonRadioGroup,
   IonRadio,
-  IonVirtualScroll
+  IonVirtualScroll,
+  IonCol,
+  IonRow,
+  IonGrid,
+  IonLabel,
+  IonCheckbox
 } from "@ionic/vue";
 import ComponentBase from "./components/ComponentBase.vue";
 import ItemRipple from "./components/ItemRipple.vue";
@@ -82,6 +87,11 @@ app.component('ion-modal', IonModal)
 app.component('ion-radio-group', IonRadioGroup)
 app.component('ion-radio', IonRadio)
 app.component('ion-virtual-scroll', IonVirtualScroll)
+app.component('ion-col', IonCol)
+app.component('ion-row', IonRow)
+app.component('ion-grid', IonGrid)
+app.component('ion-label', IonLabel)
+app.component('ion-checkbox', IonCheckbox)
 
 router.isReady().then(() => {
   app.mount('#app');

@@ -1,4 +1,3 @@
-import { Preferences } from '@capacitor/preferences';
 import { Categoria } from './types/categoria';
 
 const setCategoria = async (novaCategoria: Categoria) => {
@@ -9,14 +8,11 @@ const setCategoria = async (novaCategoria: Categoria) => {
     novaCategoria.id = lastId++;
     categorias.push(novaCategoria);
 
-    await Preferences.set({
-        key: 'categorias',
-        value: JSON.stringify(categorias),
-    });
+    await localStorage.setItem('categorias', JSON.stringify(categorias));
 };
 
 const getCategorias = async () => {
-    const caregoriasString = (await Preferences.get({ key: 'categorias' })).value ?? "[]";
+    const caregoriasString = localStorage.getItem('categorias') ?? "[]";
     return JSON.parse(caregoriasString);
 };
 

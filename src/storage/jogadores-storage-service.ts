@@ -1,4 +1,3 @@
-import { Preferences } from '@capacitor/preferences';
 import { Jogador } from './types/jogador';
 
 const key = "jogadores";
@@ -7,18 +6,19 @@ const setJogador = async (novoJogador: Jogador) => {
 
     const jogadores = await getJogadores();
     let lastId = jogadores.length > 0 ? jogadores[jogadores.length - 1].id : 0;
-
-    novoJogador.id = lastId++;
-    jogadores.push(novoJogador);
-
-    await Preferences.set({
-        key: key,
-        value: JSON.stringify(jogadores),
-    });
+    lastId++
+    novoJogador.id = lastId;
+    novoJogador.nome = novoJogador.nome.trim();
+    if (jogadores.find((j: any) => j.nome.toUpperCase() === novoJogador.nome.toUpperCase())) {
+        return Promise.reject("Esse jogador já existe");
+    } else {
+        jogadores.push(novoJogador);
+        await localStorage.setItem(key, JSON.stringify(jogadores));
+    }
 };
 
 const getJogadores = async () => {
-    const jogadoresString = (await Preferences.get({ key: key })).value ?? "[]";
+    const jogadoresString = localStorage.getItem(key) ?? "[]";
     return JSON.parse(jogadoresString);
 };
 

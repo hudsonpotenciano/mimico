@@ -7,9 +7,11 @@
     <ion-list class="ion-padding">
       <ion-item>
         <ion-label position="floating">Nome do Jogador</ion-label>
-        <ion-input v-model="nome" type="text"></ion-input>
+        <ion-input autofocus required v-model="nome" type="text"></ion-input>
+        <ion-text color="danger">{{nomeErroValidacao}}</ion-text>
       </ion-item>
     </ion-list>
+
     <template #footer>
       <ion-footer>
         <ion-grid>
@@ -30,6 +32,7 @@
                 class="button-round"
                 color="success"
                 expand="full"
+                type="submit"
               >
                 <ion-label>Salvar</ion-label>
               </ion-button>
@@ -51,13 +54,33 @@ export default defineComponent({
   data() {
     return {
       nome: "",
+      nomeErroValidacao: "",
     };
   },
   components: {},
   methods: {
     salveNovoJogador() {
-      setJogador(new Jogador(this.nome, 0));
-      window.history.back();
+      if (!this.isValid()) return;
+
+      setJogador(new Jogador(this.nome, 0))
+        .then(() => {
+          window.history.back();
+        })
+        .catch((error) => {
+          this.nomeErroValidacao = error;
+        });
+    },
+    isValid() {
+      if (this.nome.trim() === "") {
+        this.nomeErroValidacao = "Nome do jogador não foi informado";
+        return false;
+      }
+
+      if (this.nome.trim().length < 5) {
+        this.nomeErroValidacao = "Nome muito pequeno";
+        return false;
+      }
+      return true;
     },
   },
 });

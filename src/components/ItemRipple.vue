@@ -1,8 +1,8 @@
 <template>
   <ion-item :router-link="link" color="primary" class="custom-item ion-activatable ripple-parent">
-    <ion-avatar v-if="src" slot="start">
+    <!-- <ion-avatar v-if="src" slot="start">
       <img :src="src" />
-    </ion-avatar>
+    </ion-avatar>-->
     <ion-label>
       <ion-icon v-if="icon" :name="icon"></ion-icon>
       <h2 v-if="!icon">{{title}}</h2>

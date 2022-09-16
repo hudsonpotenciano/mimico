@@ -3,7 +3,8 @@
     ref="modal"
     :trigger="trigger"
     :initial-breakpoint="0.5"
-    :breakpoints="[0, 0.25, 0.5, 0.75]"
+    :breakpoints="[0, 0.5, 0.75]"
+    :can-dismiss="checkDismiss"
   >
     <ion-content>
       <ion-row class="ion-justify-content-center">
@@ -11,7 +12,7 @@
       </ion-row>
       <div class="scroll">
         <ion-list v-if="multipleSelect">
-          <ion-item color="light" v-for="user in users" :key="user">
+          <ion-item color="light" v-for="user in users" :key="user.id">
             <ion-label>{{user.nome}}</ion-label>
             <ion-checkbox
               slot="start"
@@ -22,9 +23,9 @@
         </ion-list>
         <ion-list v-else>
           <ion-radio-group v-model="selectedUserId">
-            <ion-item color="light" v-for="user in users" :key="user">
-              <ion-label>{{user.name}}</ion-label>
-              <ion-radio slot="start" :value="user.nome"></ion-radio>
+            <ion-item color="light" v-for="user in users" :key="user.id">
+              <ion-label>{{user.nome}}</ion-label>
+              <ion-radio slot="start" :value="user.id"></ion-radio>
             </ion-item>
           </ion-radio-group>
         </ion-list>
@@ -37,6 +38,7 @@
 </template>
 <script>
 import { getJogadores } from "../storage/jogadores-storage-service";
+// import { actionSheetController } from "@ionic/vue";
 
 export default {
   name: "SelectUserModal",
@@ -60,24 +62,58 @@ export default {
       Type: Boolean,
       default: false,
     },
+    canDismissWithoutUser: {
+      Type: Boolean,
+      default: true,
+    },
   },
   async mounted() {
     this.users = await getJogadores();
   },
   methods: {
     select() {
-      if (this.multipleSelect) {
-        this.onSelect(this.users.filter((u) => u.isChecked));
-      } else {
-        //TODO - TROCAR POR ID
-        this.onSelect(this.users.find((u) => u.nome == this.selectedUserId));
-      }
       this.$refs.modal.$el.dismiss();
+    },
+    checkDismiss() {
+      if (
+        this.canDismissWithoutUser ||
+        this.selectedUserId ||
+        this.multipleSelect
+      ) {
+        if (this.multipleSelect) {
+          const usersSelected = this.users.filter((u) => u.isChecked);
+          if (usersSelected.length == 0) return false;
+
+          this.onSelect(this.users.filter((u) => u.isChecked));
+          return true;
+        } else {
+          if (!this.selectedUserId) return false;
+          this.onSelect(this.users.find((u) => u.id == this.selectedUserId));
+          return true;
+        }
+      }
+      return false;
+      // const actionSheet = await actionSheetController.create({
+      //   header: "Realmente deseja fechar a seleção?",
+      //   buttons: [
+      //     {
+      //       text: "Sim",
+      //       role: "confirm",
+      //     },
+      //     {
+      //       text: "Não",
+      //       role: "cancel",
+      //     },
+      //   ],
+      // });
+      // actionSheet.present();
+      // const { role } = await actionSheet.onWillDismiss();
+      // return role === "confirm";
     },
   },
 };
 </script>
-style
+
 <style scroped>
 .scroll {
   height: 30%;

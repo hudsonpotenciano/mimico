@@ -1,18 +1,20 @@
 <template>
   <ion-page>
-    <ion-toolbar>
-      <ion-buttons slot="start">
-        <ion-back-button :default-href="pageDefaultBackLink"></ion-back-button>
-      </ion-buttons>
-      <ion-grid v-if="pageTitle">
-        <ion-row v-if="alignTitleCenter" class="ion-justify-content-center">
-          <h1 class="page-title">{{pageTitle}}</h1>
-        </ion-row>
-        <ion-row v-else>
-          <h1 class="page-title page-title-padding">{{pageTitle}}</h1>
-        </ion-row>
-      </ion-grid>
-    </ion-toolbar>
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-back-button :default-href="pageDefaultBackLink"></ion-back-button>
+        </ion-buttons>
+        <ion-grid v-if="pageTitle">
+          <ion-row v-if="alignTitleCenter" class="ion-justify-content-center">
+            <h1 class="page-title">{{pageTitle}}</h1>
+          </ion-row>
+          <ion-row v-else>
+            <h1 class="page-title page-title-padding">{{pageTitle}}</h1>
+          </ion-row>
+        </ion-grid>
+      </ion-toolbar>
+    </ion-header>
     <ion-content>
       <slot />
     </ion-content>

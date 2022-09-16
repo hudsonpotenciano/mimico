@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Staatliches&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
 
 :root{
-    --ion-font-family:'Staatliches';
+    --ion-font-family:'Roboto';
     --ion-background-color: #ffd600;
     --ion-color-primary:#6601ea;
     --ion-color-secondary:#ffd600;

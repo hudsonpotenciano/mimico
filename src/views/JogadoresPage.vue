@@ -1,5 +1,8 @@
 <template>
   <ComponentBase :isDefaultFooter="'true'" :pageDefaultBackLink="'Home'" :pageTitle="'Jogadores'">
+    <ion-refresher slot="fixed" @ionRefresh="refresh($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
     <ion-list class="ion-padding">
       <ItemRipple
         v-for="jogador in jogadores"
@@ -28,9 +31,20 @@ export default defineComponent({
     };
   },
   components: {},
-  methods: {},
+  methods: {
+    refresh(e: any) {
+      e.target.complete();
+      getJogadores();
+    },
+    async getJogadoresFromStorage() {
+      this.jogadores = await getJogadores();
+    },
+  },
   async mounted() {
-    this.jogadores = await getJogadores();
+    await this.getJogadoresFromStorage();
+  },
+  updated() {
+    this.getJogadoresFromStorage();
   },
 });
 </script>

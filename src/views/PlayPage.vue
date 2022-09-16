@@ -1,5 +1,5 @@
 <template>
-  <ComponentBase :pageTitle="'Animais'" :isDefaultFooter="false" :pageDefaultBackLink="'../Home'">
+  <ComponentBase :pageTitle="'Animais'" :isDefaultFooter="false" :pageDefaultBackLink="'home'">
     <TransitionGroup>
       <ion-grid v-if="!playing" class="play-grid">
         <ion-row class="view-configuracoes-jogo ion-justify-content-center ion-align-items-center">
@@ -95,10 +95,10 @@
             <ion-grid class="ion-padding">
               <ion-row class="ion-justify-content-center ion-align-items-center row-play-button">
                 <ion-button
-                  :disabled="!(jogadores.length >= 2)"
+                  :disabled="!(jogadores.length >= 2) || quantidadePalavras <= 1"
                   shape="round"
                   class="play-button"
-                  @click="playing = true"
+                  @click="iniciePartida"
                 >
                   <ion-icon slot="icon-only" name="play-outline"></ion-icon>
                 </ion-button>
@@ -117,7 +117,7 @@
             <ion-row class="ion-justify-content-center ion-padding">
               <ion-col class="ion-text-center">
                 <span>Jogador</span>
-                <h1 class="jogador-name">Hudson</h1>
+                <h1 class="jogador-name">{{jogador.nome}}</h1>
               </ion-col>
             </ion-row>
             <ion-row class="ion-justify-content-center ion-align-items-center">
@@ -160,8 +160,14 @@
                 :onSelect="onSelectAcertou"
                 :title="'Quem Acertou?'"
                 :trigger="'modal-acertou'"
+                :canDismissWithoutUser="false"
               ></SelectUserModal>
-              <ion-button id="modal-acertou" class="button-round winner-button" color="success">
+              <ion-button
+                @click="clickAcertou"
+                id="modal-acertou"
+                class="button-round winner-button"
+                color="success"
+              >
                 <ion-row class="ion-align-items-center">
                   <ion-col size="8">
                     <h1>Acertou</h1>
@@ -176,24 +182,24 @@
         </ion-row>
       </ion-grid>
     </TransitionGroup>
-  </ComponentBase>
-  <ion-modal trigger="modal-grupos" :initial-breakpoint="0.3" :breakpoints="[0, 0.3]">
-    <ion-content>
-      <ion-row class="ion-justify-content-center">
-        <h1 class="title">Grupo</h1>
-      </ion-row>
+    <ion-modal trigger="modal-grupos" :initial-breakpoint="0.3" :breakpoints="[0, 0.3]">
+      <ion-content>
+        <ion-row class="ion-justify-content-center">
+          <h1 class="title">Grupo</h1>
+        </ion-row>
 
-      <ion-list class="ion-padding">
-        <ion-item>
-          <ion-label position="floating">Nome do Grupo</ion-label>
-          <ion-input v-model="nomeAddGrupo" type="text"></ion-input>
-        </ion-item>
-      </ion-list>
-      <ion-row class="ion-padding ion-justify-content-center">
-        <ion-button @click="addGrupo" shape="round" color="success">Pronto</ion-button>
-      </ion-row>
-    </ion-content>
-  </ion-modal>
+        <ion-list class="ion-padding">
+          <ion-item>
+            <ion-label position="floating">Nome do Grupo</ion-label>
+            <ion-input v-model="nomeAddGrupo" type="text"></ion-input>
+          </ion-item>
+        </ion-list>
+        <ion-row class="ion-padding ion-justify-content-center">
+          <ion-button @click="addGrupo" shape="round" color="success">Pronto</ion-button>
+        </ion-row>
+      </ion-content>
+    </ion-modal>
+  </ComponentBase>
 </template>
 
 <script lang="ts">
@@ -209,6 +215,8 @@ export default defineComponent({
         nome: "Animais",
         palavras: ["Cachorro", "Gato", "Rato"],
       },
+      jogador: {},
+      jogadorIndex: 0,
       jogadores: [],
       grupos: [],
       nomeAddGrupo: "",
@@ -223,12 +231,14 @@ export default defineComponent({
   components: {},
   methods: {
     segmentChanged(ev: any) {
-      // alert("dialogo de confirmacao para limpar jogadores e grupos");
+      console.log(ev);
+
       this.jogadores = [];
     },
-    startTempo() {
+    startTempo(deOndeParou = false) {
       this.palavraVisivel = !this.palavraVisivel;
       clearInterval(this.calcTempoRestanteInterval);
+      this.tempoRestante = deOndeParou ? this.tempoRestante : 60;
       this.calcTempoRestanteInterval = setInterval(() => {
         this.tempoRestante--;
         if (this.tempoRestante == 0) {
@@ -241,12 +251,28 @@ export default defineComponent({
       this.tempoRestante = 60;
       this.palavraVisivel = false;
       this.palavraIndex++;
+      this.troqueProximoJogador();
+    },
+    troqueProximoJogador() {
+      if (!this.jogador) {
+        this.jogador = this.jogadores[0];
+      }
+
+      if (this.jogadorIndex == this.jogadores.length - 1) {
+        this.jogadorIndex = 0;
+      }
+
+      this.jogador = this.jogadores[this.jogadorIndex++];
     },
     onSelectAcertou(user: any) {
       this.vaParaProximaPalavra();
     },
     onSelectJogadores(users: never[]) {
-      this.jogadores.push(...users);
+      users.forEach((user: Jogador) => {
+        if (!this.jogadores.find((j: Jogador) => j.id == user.id)) {
+          this.jogadores.push(user as never);
+        }
+      });
     },
     addGrupo() {
       this.grupos.push({
@@ -254,6 +280,16 @@ export default defineComponent({
       } as never);
       this.nomeAddGrupo = "";
     },
+    clickAcertou() {
+      clearInterval(this.calcTempoRestanteInterval);
+    },
+    iniciePartida() {
+      this.playing = true;
+      this.troqueProximoJogador();
+    },
+  },
+  beforeMount() {
+    this.quantidadePalavras = this.categoria.palavras.length;
   },
 });
 </script>

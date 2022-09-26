@@ -1,8 +1,14 @@
 <template>
-  <ComponentBase :pageTitle="'Animais'" :isDefaultFooter="false" :pageDefaultBackLink="'home'">
+  <ComponentBase
+    :pageTitle="'Animais'"
+    :isDefaultFooter="false"
+    :pageDefaultBackLink="'home'"
+  >
     <TransitionGroup>
       <ion-grid v-if="!playing" class="play-grid">
-        <ion-row class="view-configuracoes-jogo ion-justify-content-center ion-align-items-center">
+        <ion-row
+          class="view-configuracoes-jogo ion-justify-content-center ion-align-items-center"
+        >
           <ion-col size="12">
             <ion-row class="ion-justify-content-center">
               <h5>Palavras</h5>
@@ -20,7 +26,9 @@
                 </ion-col>
                 <ion-col size="6">
                   <ion-row class="ion-justify-content-center">
-                    <span>{{quantidadePalavras}} de {{categoria.palavras.length}}</span>
+                    <span
+                      >{{ quantidadePalavras }} de {{ categoria.palavras.length }}</span
+                    >
                   </ion-row>
                   <ion-progress-bar :value="tempoRestante / 60"></ion-progress-bar>
                 </ion-col>
@@ -56,7 +64,7 @@
                 :trigger="'modal-selectjogadores'"
                 :multipleSelect="true"
               ></SelectUserModal>
-              <div :class="{'d-none' : segment != 'todos'}">
+              <div :class="{ 'd-none': segment != 'todos' }">
                 <ion-list>
                   <div class="scroll">
                     <ItemRipple
@@ -71,14 +79,19 @@
                     :icon="'add-outline'"
                     :title="'Adicionar Jogador'"
                     color="success"
+                    @click="checkExisteJogadores"
                   ></ItemRipple>
                 </ion-list>
               </div>
 
-              <div :class="{'d-none' : segment != 'grupos'}">
+              <div :class="{ 'd-none': segment != 'grupos' }">
                 <ion-list v-if="segment == 'grupos'">
                   <div class="scroll">
-                    <ItemRipple v-for="grupo in grupos" :key="grupo.id" :title="grupo.nome"></ItemRipple>
+                    <ItemRipple
+                      v-for="grupo in grupos"
+                      :key="grupo.id"
+                      :title="grupo.nome"
+                    ></ItemRipple>
                   </div>
 
                   <ItemRipple
@@ -93,7 +106,9 @@
           </ion-col>
           <ion-col size="12">
             <ion-grid class="ion-padding">
-              <ion-row class="ion-justify-content-center ion-align-items-center row-play-button">
+              <ion-row
+                class="ion-justify-content-center ion-align-items-center row-play-button"
+              >
                 <ion-button
                   :disabled="!(jogadores.length >= 2) || quantidadePalavras <= 1"
                   shape="round"
@@ -117,7 +132,7 @@
             <ion-row class="ion-justify-content-center ion-padding">
               <ion-col class="ion-text-center">
                 <span>Jogador</span>
-                <h1 class="jogador-name">{{jogador.nome}}</h1>
+                <h1 class="jogador-name">{{ jogador.nome }}</h1>
               </ion-col>
             </ion-row>
             <ion-row class="ion-justify-content-center ion-align-items-center">
@@ -125,21 +140,36 @@
                 <ion-row class="ion-justify-content-center ion-align-items-center">
                   <ion-col size="12">
                     <h1 v-if="!palavraVisivel">
-                      <span v-for="index in categoria.palavras[palavraIndex].length" :key="index">*</span>
+                      <span
+                        v-for="index in categoria.palavras[palavraIndex].length"
+                        :key="index"
+                        >*</span
+                      >
                     </h1>
-                    <h1 v-if="palavraVisivel">{{categoria.palavras[palavraIndex]}}</h1>
+                    <h1 v-if="palavraVisivel">{{ categoria.palavras[palavraIndex] }}</h1>
                   </ion-col>
                   <ion-col size="12">
                     <ion-row class="row-card-buttons">
                       <ion-col size="6">
-                        <ion-button @click="palavraIndex++" class="button-rounded" color="danger">
+                        <ion-button
+                          @click="palavraIndex++"
+                          class="button-rounded"
+                          color="danger"
+                        >
                           <ion-icon name="refresh-outline"></ion-icon>
                         </ion-button>
                       </ion-col>
                       <ion-col size="6">
-                        <ion-button class="button-rounded" color="success" @click="startTempo">
+                        <ion-button
+                          class="button-rounded"
+                          color="success"
+                          @click="startTempo"
+                        >
                           <ion-icon v-if="!palavraVisivel" name="eye-outline"></ion-icon>
-                          <ion-icon v-if="palavraVisivel" name="eye-off-outline"></ion-icon>
+                          <ion-icon
+                            v-if="palavraVisivel"
+                            name="eye-off-outline"
+                          ></ion-icon>
                         </ion-button>
                       </ion-col>
                     </ion-row>
@@ -150,7 +180,7 @@
           </ion-col>
           <ion-col size="12">
             <ion-list class="ion-padding">
-              <ion-label color="primary">Tempo {{tempoRestante}}</ion-label>
+              <ion-label color="primary">Tempo {{ tempoRestante }}</ion-label>
               <ion-progress-bar :value="tempoRestante / 60"></ion-progress-bar>
             </ion-list>
           </ion-col>
@@ -205,6 +235,8 @@
 <script lang="ts">
 import { Jogador } from "@/storage/types/jogador";
 import { defineComponent } from "vue";
+import { getJogadores } from "../storage/jogadores-storage-service";
+import { useIonRouter } from "@ionic/vue";
 
 export default defineComponent({
   name: "JogadoresPage",
@@ -226,6 +258,7 @@ export default defineComponent({
       palavraVisivel: false,
       tempoRestante: 60,
       calcTempoRestanteInterval: 0,
+      jogadoresDb: [],
     };
   },
   components: {},
@@ -286,6 +319,12 @@ export default defineComponent({
     iniciePartida() {
       this.playing = true;
       this.troqueProximoJogador();
+    },
+    async checkExisteJogadores() {
+      this.jogadoresDb = await getJogadores();
+      if (this.jogadoresDb.length == 0) {
+        this.$router.push("/novojogador");
+      }
     },
   },
   beforeMount() {

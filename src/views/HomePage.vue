@@ -18,6 +18,9 @@
         </ion-row>
       </ion-grid>
     </ion-content>
+    <ion-footer>
+      <p>versão 1.0</p>
+    </ion-footer>
   </ion-page>
 </template>
 
@@ -49,13 +52,6 @@ export default defineComponent({
         },
       ],
     };
-  },
-  mounted() {
-    setJogador({
-      nome: "Hudson",
-      pontuacao: 14,
-      id: 0,
-    });
   },
   methods: {},
   components: {

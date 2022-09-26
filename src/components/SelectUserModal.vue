@@ -5,15 +5,16 @@
     :initial-breakpoint="0.5"
     :breakpoints="[0, 0.5, 0.75]"
     :can-dismiss="checkDismiss"
+    :isOpen="isModalOpen"
   >
     <ion-content>
       <ion-row class="ion-justify-content-center">
-        <h1 class="title">{{title}}</h1>
+        <h1 class="title">{{ title }}</h1>
       </ion-row>
       <div class="scroll">
         <ion-list v-if="multipleSelect">
           <ion-item color="light" v-for="user in users" :key="user.id">
-            <ion-label>{{user.nome}}</ion-label>
+            <ion-label>{{ user.nome }}</ion-label>
             <ion-checkbox
               slot="start"
               :value="user.isChecked"
@@ -24,7 +25,7 @@
         <ion-list v-else>
           <ion-radio-group v-model="selectedUserId">
             <ion-item color="light" v-for="user in users" :key="user.id">
-              <ion-label>{{user.nome}}</ion-label>
+              <ion-label>{{ user.nome }}</ion-label>
               <ion-radio slot="start" :value="user.id"></ion-radio>
             </ion-item>
           </ion-radio-group>
@@ -46,6 +47,7 @@ export default {
     return {
       users: [],
       selectedUserId: "",
+      isModalOpen: false,
     };
   },
   props: {
@@ -70,16 +72,18 @@ export default {
   async mounted() {
     this.users = await getJogadores();
   },
+  watch: {
+    isModalOpen(a, b) {
+      if (this.users.length == 0) this.$refs.modal.$el.dismiss();
+    },
+  },
   methods: {
     select() {
       this.$refs.modal.$el.dismiss();
     },
     checkDismiss() {
-      if (
-        this.canDismissWithoutUser ||
-        this.selectedUserId ||
-        this.multipleSelect
-      ) {
+      if (this.users.length == 0) return true;
+      if (this.canDismissWithoutUser || this.selectedUserId || this.multipleSelect) {
         if (this.multipleSelect) {
           const usersSelected = this.users.filter((u) => u.isChecked);
           if (usersSelected.length == 0) return false;

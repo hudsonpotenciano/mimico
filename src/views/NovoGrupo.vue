@@ -1,5 +1,9 @@
 <template>
-  <ComponentBase :isDefaultFooter="false" :pageDefaultBackLink="'Grupos'" :pageTitle="'Novo Grupo'">
+  <ComponentBase
+    :isDefaultFooter="false"
+    :pageDefaultBackLink="'Grupos'"
+    :pageTitle="'Novo Grupo'"
+  >
     <ion-list class="ion-padding">
       <ion-item>
         <ion-label position="floating">Nome do Grupo</ion-label>
@@ -7,7 +11,11 @@
       </ion-item>
     </ion-list>
     <ion-list>
-      <ItemRipple id="modal-addjogador" :icon="'add-outline'" :title="'Adicionar Jogador'"></ItemRipple>
+      <ItemRipple
+        id="modal-addjogador"
+        :icon="'add-outline'"
+        :title="'Adicionar Jogador'"
+      ></ItemRipple>
     </ion-list>
     <SelectUserModal
       :onSelect="onSelectJogador"
@@ -49,12 +57,10 @@ export default defineComponent({
   components: {},
   methods: {
     onSelectJogador(user: any[]) {
-      debugger;
       this.jogadores.push(user[0] as never);
     },
   },
 });
 </script>
 
-<style lang="css">
-</style>
+<style lang="css"></style>

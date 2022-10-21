@@ -8,7 +8,7 @@
       <ion-item>
         <ion-label position="floating">Nome do Jogador</ion-label>
         <ion-input autofocus required v-model="nome" type="text"></ion-input>
-        <ion-text color="danger">{{nomeErroValidacao}}</ion-text>
+        <ion-text color="danger">{{ nomeErroValidacao }}</ion-text>
       </ion-item>
     </ion-list>
 
@@ -19,9 +19,10 @@
             <ion-col size="6" class="ion-align-self-end">
               <ion-button
                 ref="botaoVoltar"
-                color="button-round"
-                :router-link="'Jogadores'"
+                class="button-round"
+                @click="volte"
                 expand="full"
+                color="medium"
               >
                 <ion-label>Voltar</ion-label>
               </ion-button>
@@ -50,7 +51,6 @@ import { defineComponent } from "vue";
 import { setJogador } from "../storage/jogadores-storage-service";
 
 export default defineComponent({
-  name: "NovoGrupo",
   data() {
     return {
       nome: "",
@@ -59,12 +59,15 @@ export default defineComponent({
   },
   components: {},
   methods: {
+    volte() {
+      this.$router.back();
+    },
     salveNovoJogador() {
       if (!this.isValid()) return;
 
       setJogador(new Jogador(this.nome, 0))
         .then(() => {
-          window.history.back();
+          this.volte();
         })
         .catch((error) => {
           this.nomeErroValidacao = error;
@@ -86,5 +89,4 @@ export default defineComponent({
 });
 </script>
 
-<style lang="css">
-</style>
+<style lang="css"></style>

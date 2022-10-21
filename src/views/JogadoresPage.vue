@@ -1,5 +1,9 @@
 <template>
-  <ComponentBase :isDefaultFooter="'true'" :pageDefaultBackLink="'Home'" :pageTitle="'Jogadores'">
+  <ComponentBase
+    :isDefaultFooter="'true'"
+    :pageDefaultBackLink="'Home'"
+    :pageTitle="'Jogadores'"
+  >
     <ion-refresher slot="fixed" @ionRefresh="refresh($event)">
       <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
@@ -10,12 +14,17 @@
         :title="jogador.nome"
         :score="jogador.pontuacao"
       ></ItemRipple>
-      <ItemRipple :link="'NovoJogador'" :icon="'add-outline'" :title="'Adicionar'"></ItemRipple>
+      <ItemRipple
+        :link="'NovoJogador'"
+        :icon="'add-outline'"
+        :title="'Adicionar'"
+      ></ItemRipple>
     </ion-list>
   </ComponentBase>
 </template>
 
 <script lang="ts">
+import { Jogador } from "@/storage/types/jogador";
 import { defineComponent } from "vue";
 import {
   setJogador,
@@ -27,7 +36,7 @@ export default defineComponent({
   name: "JogadoresPage",
   data() {
     return {
-      jogadores: [],
+      jogadores: [] as Jogador[],
     };
   },
   components: {},
@@ -49,5 +58,4 @@ export default defineComponent({
 });
 </script>
 
-<style lang="css">
-</style>
+<style lang="css"></style>

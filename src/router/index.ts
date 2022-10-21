@@ -23,7 +23,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/play/:categoryId',
-    name: 'play',
+    name: 'Play',
     component: PlayPage
   }
   ,

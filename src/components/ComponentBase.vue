@@ -1,16 +1,16 @@
 <template>
   <ion-page>
-    <ion-header>
+    <ion-header v-if="showHeader">
       <ion-toolbar>
         <ion-buttons slot="start">
           <ion-back-button :default-href="pageDefaultBackLink"></ion-back-button>
         </ion-buttons>
         <ion-grid v-if="pageTitle">
           <ion-row v-if="alignTitleCenter" class="ion-justify-content-center">
-            <h1 class="page-title">{{pageTitle}}</h1>
+            <h1 class="page-title">{{ pageTitle }}</h1>
           </ion-row>
           <ion-row v-else>
-            <h1 class="page-title page-title-padding">{{pageTitle}}</h1>
+            <h1 class="page-title page-title-padding">{{ pageTitle }}</h1>
           </ion-row>
         </ion-grid>
       </ion-toolbar>
@@ -22,7 +22,12 @@
       <ion-row>
         <ion-col size="2"></ion-col>
         <ion-col size="8">
-          <ion-button class="button-round" expand="full" :router-link="pageDefaultBackLink">
+          <ion-button
+            class="button-round"
+            expand="full"
+            :router-link="pageDefaultBackLink"
+            color="medium"
+          >
             <ion-label>Voltar</ion-label>
           </ion-button>
         </ion-col>
@@ -47,6 +52,10 @@ export default {
       Type: String,
     },
     isDefaultFooter: {
+      Type: Boolean,
+      default: false,
+    },
+    showHeader: {
       Type: Boolean,
       default: false,
     },

@@ -2,12 +2,15 @@
 
 :root{
     --ion-font-family:'Roboto';
-    --ion-background-color: #ffd600;
+    /* --ion-background-color: #ffd600;
     --ion-color-primary:#6601ea;
     --ion-color-secondary:#ffd600;
-    --custom-boxshadow:rgba(0, 0, 0, 0.4) 0px 2px 4px,rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+    
     --border-radius:25px;
+     */
+    --custom-boxshadow:rgba(0, 0, 0, 0.4) 0px 2px 4px,rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
     --custom-border-radius:25px;
+    --ion-item-background:transparent;
 }
 
 ion-button{
@@ -17,10 +20,6 @@ ion-button{
     border-radius: var(--custom-border-radius);
 
 }
-ion-segment{
-    --ion-background-color: #6601ea;
-    --color-checked: white;
-}
 
 .card-branco {
     padding: 10px;
@@ -29,6 +28,14 @@ ion-segment{
     border-radius: 25px;
     box-shadow: var(--custom-boxshadow);
 }
-.item-input{
-    --ion-background-color: white;
+
+.v-enter-active,
+.v-leave-active {
+  transition: all 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  height: 0;
+  opacity: 0;
 }

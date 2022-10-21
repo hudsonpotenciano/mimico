@@ -1,11 +1,10 @@
 <template>
   <ion-modal
-    ref="modal"
+    :ref="customRef"
+    :key="customRef"
     :trigger="trigger"
-    :initial-breakpoint="0.5"
-    :breakpoints="[0, 0.5, 0.75]"
-    :can-dismiss="checkDismiss"
-    :isOpen="isModalOpen"
+    :initial-breakpoint="0.75"
+    :breakpoints="[0, 0.75]"
   >
     <ion-content>
       <ion-row class="ion-justify-content-center">
@@ -31,8 +30,18 @@
           </ion-radio-group>
         </ion-list>
       </div>
-      <ion-row class="ion-padding ion-justify-content-center">
-        <ion-button @click="select" shape="round" color="success">Pronto</ion-button>
+      <ion-list v-if="canAddNewUser">
+        <ItemRipple
+          :link="'/NovoJogador'"
+          :icon="'add-outline'"
+          :title="'Novo jogador'"
+          @click="(forceDismiss = true), modalDismiss()"
+        ></ItemRipple
+      ></ion-list>
+      <ion-row class="ion-justify-content-center">
+        <ion-button @click="modalDismiss" shape="round" color="success"
+          >Pronto</ion-button
+        >
       </ion-row>
     </ion-content>
   </ion-modal>
@@ -47,17 +56,23 @@ export default {
     return {
       users: [],
       selectedUserId: "",
-      isModalOpen: false,
+      forceDismiss: false,
     };
   },
   props: {
-    trigger: {
-      Type: String,
-    },
     title: {
       Type: String,
     },
+    customRef: {
+      Type: String,
+    },
+    trigger: {
+      Type: String,
+    },
     onSelect: {
+      Type: Function,
+    },
+    dismiss: {
       Type: Function,
     },
     multipleSelect: {
@@ -68,51 +83,44 @@ export default {
       Type: Boolean,
       default: true,
     },
+    canAddNewUser: {
+      Type: Boolean,
+      default: false,
+    },
+    ignoreId: {
+      Type: Number,
+      default: 0,
+    },
+    ignoreExcept: {
+      Type: Array,
+      default: [],
+    },
   },
   async mounted() {
-    this.users = await getJogadores();
-  },
-  watch: {
-    isModalOpen(a, b) {
-      if (this.users.length == 0) this.$refs.modal.$el.dismiss();
-    },
+    this.getJogadoresFromDb();
   },
   methods: {
-    select() {
-      this.$refs.modal.$el.dismiss();
-    },
-    checkDismiss() {
-      if (this.users.length == 0) return true;
-      if (this.canDismissWithoutUser || this.selectedUserId || this.multipleSelect) {
+    modalDismiss() {
+      if (this.onSelect) {
+        console.log(this.users);
         if (this.multipleSelect) {
-          const usersSelected = this.users.filter((u) => u.isChecked);
-          if (usersSelected.length == 0) return false;
-
           this.onSelect(this.users.filter((u) => u.isChecked));
-          return true;
         } else {
-          if (!this.selectedUserId) return false;
           this.onSelect(this.users.find((u) => u.id == this.selectedUserId));
-          return true;
         }
       }
-      return false;
-      // const actionSheet = await actionSheetController.create({
-      //   header: "Realmente deseja fechar a seleção?",
-      //   buttons: [
-      //     {
-      //       text: "Sim",
-      //       role: "confirm",
-      //     },
-      //     {
-      //       text: "Não",
-      //       role: "cancel",
-      //     },
-      //   ],
-      // });
-      // actionSheet.present();
-      // const { role } = await actionSheet.onWillDismiss();
-      // return role === "confirm";
+      this.$refs[this.customRef].$el.dismiss();
+    },
+    async getJogadoresFromDb() {
+      this.users = await getJogadores();
+      if (this.ignoreExcept.length > 0) {
+        this.users = this.users.filter((f) =>
+          this.ignoreExcept.find((ex) => ex.id == f.id)
+        );
+      }
+      if (this.ignoreId > 0) {
+        this.users = this.users.filter((f) => f.id != this.ignoreId);
+      }
     },
   },
 };
@@ -120,7 +128,7 @@ export default {
 
 <style scroped>
 .scroll {
-  height: 30%;
+  max-height: 270px;
   overflow: auto;
 }
 .title {

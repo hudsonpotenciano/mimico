@@ -1,18 +1,18 @@
 <template>
   <ComponentBase
-    :pageTitle="'Animais'"
+    :pageTitle="categoria.descricao"
     :isDefaultFooter="false"
     :pageDefaultBackLink="'home'"
     :show-header="!playing"
   >
     <TransitionGroup>
       <PlayConfig
-        v-if="!playing"
+        v-if="!playing && categoria.descricao"
         :funcaoPlay="iniciePartida"
         :categoria="categoria"
       ></PlayConfig>
       <PlayGame
-        v-if="playing"
+        v-if="playing && categoria.descricao"
         :categoria="categoria"
         :jogadores="jogadores"
         :quantidade-palavras="quantidadePalavras"
@@ -22,21 +22,18 @@
 </template>
 
 <script lang="ts">
-import { Jogador } from "@/storage/types/jogador";
 import { defineComponent } from "vue";
-import { getJogadores, setJogador } from "../storage/jogadores-storage-service";
 import PlayConfig from "../components/organisms/PlayConfig.vue";
 import PlayGame from "@/components/organisms/PlayGame.vue";
+import { getCategoria } from "@/storage/categorias-storage.service";
+import { Categoria } from "@/storage/types/categoria";
 
 export default defineComponent({
   name: "JogadoresPage",
   data() {
     return {
       segment: "todos",
-      categoria: {
-        nome: "Animais",
-        palavras: ["Cachorro", "Gato", "Rato", "Macaco", "Galinh", "Pica-pau", "Porco"],
-      },
+      categoria: {} as Categoria,
       playing: false,
       jogadores: [],
       quantidadePalavras: 0,
@@ -49,7 +46,11 @@ export default defineComponent({
       this.playing = true;
     },
   },
+  async mounted() {
+    let params = this.$route.params.categoria;
+    debugger;
+    this.categoria = await getCategoria(params as string);
+  },
   components: { PlayConfig, PlayGame },
 });
 </script>
-

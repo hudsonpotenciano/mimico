@@ -112,12 +112,22 @@
 </template>
 
 <script lang="ts">
+import { Categoria } from "@/storage/types/categoria";
 import { Jogador } from "@/storage/types/jogador";
 import { defineComponent } from "vue";
-import { getJogadores, setJogador } from "../../storage/jogadores-storage-service";
+import { getJogadores, setJogador } from "../../storage/jogadores-storage.service";
 
 export default defineComponent({
-  props: ["funcaoPlay", "categoria"],
+  props: {
+    funcaoPlay: {
+      required: true,
+      type: Function,
+    },
+    categoria: {
+      required: true,
+      type: Categoria,
+    },
+  },
   data() {
     return {
       segment: "todos",
@@ -136,7 +146,6 @@ export default defineComponent({
     },
 
     onSelectJogadores(users: never[]) {
-      debugger;
       users.forEach((user: Jogador) => {
         if (!this.jogadores.find((j: Jogador) => j.id == user.id)) {
           this.jogadores.push(user as never);
@@ -157,7 +166,6 @@ export default defineComponent({
   },
   watch: {
     async $route(to, from) {
-      debugger;
       //TODO REFRESH NOS USUARIOS APOS ADICIONAR
 
       if (from.name == "NovoJogador" && to.name == "Play") {

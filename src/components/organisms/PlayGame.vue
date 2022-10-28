@@ -96,7 +96,7 @@ import { Categoria } from "@/storage/types/categoria";
 import { Jogador } from "@/storage/types/jogador";
 import { PontuacaoPartida } from "@/storage/types/PontuacaoPartida";
 import { defineComponent } from "vue";
-import { updateJogador } from "../../storage/jogadores-storage-service";
+import { updateJogador } from "../../storage/jogadores-storage.service";
 
 export default defineComponent({
   props: {

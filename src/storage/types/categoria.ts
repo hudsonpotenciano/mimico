@@ -1,13 +1,10 @@
 export class Categoria {
-    id: number;
-    nome: string;
-    palavras: string[];
-    /**
-     *
-     */
-    constructor(id: number, nome: string, palavras: string[]) {
-        this.id = id;
-        this.nome = nome
-        this.palavras = palavras;
-    }
+  descricao: string;
+  key: string;
+  palavras: string[];
+  constructor(descricao: string, palavras: string[], key: string) {
+    this.descricao = descricao;
+    this.palavras = palavras;
+    this.key = key;
+  }
 }

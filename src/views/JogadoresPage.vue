@@ -30,7 +30,7 @@ import {
   setJogador,
   getJogadorById,
   getJogadores,
-} from "../storage/jogadores-storage-service";
+} from "../storage/jogadores-storage.service";
 
 export default defineComponent({
   name: "JogadoresPage",

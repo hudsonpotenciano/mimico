@@ -47,7 +47,7 @@
   </ion-modal>
 </template>
 <script>
-import { getJogadores } from "../storage/jogadores-storage-service";
+import { getJogadores } from "../storage/jogadores-storage.service";
 // import { actionSheetController } from "@ionic/vue";
 
 export default {

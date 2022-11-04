@@ -46,9 +46,9 @@
 </template>
 
 <script lang="ts">
-import { Jogador } from "@/storage/types/jogador";
+import { Jogador } from "@/entity/Jogador";
 import { defineComponent } from "vue";
-import { setJogador } from "../storage/jogadores-storage.service";
+import { setJogador } from "../storage/jogadores.service";
 
 export default defineComponent({
   data() {

@@ -24,13 +24,9 @@
 </template>
 
 <script lang="ts">
-import { Jogador } from "@/storage/types/jogador";
+import { Jogador } from "@/entity/Jogador";
 import { defineComponent } from "vue";
-import {
-  setJogador,
-  getJogadorById,
-  getJogadores,
-} from "../storage/jogadores-storage.service";
+import { setJogador, getJogadorById, getJogadores } from "../storage/jogadores.service";
 
 export default defineComponent({
   name: "JogadoresPage",

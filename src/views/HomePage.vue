@@ -38,8 +38,8 @@
 </template>
 
 <script lang="ts">
-import { getTodasCategorias } from "@/storage/categorias-storage.service";
-import { Categoria } from "@/storage/types/categoria";
+import { Categoria } from "@/entity/Categoria";
+import { getTodasCategorias } from "@/storage/categorias.service";
 import { IonContent, IonPage } from "@ionic/vue";
 import { defineComponent } from "vue";
 import CardHome from "../components/CardHome.vue";

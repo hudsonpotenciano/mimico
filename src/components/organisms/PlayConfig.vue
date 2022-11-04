@@ -112,10 +112,10 @@
 </template>
 
 <script lang="ts">
-import { Categoria } from "@/storage/types/categoria";
-import { Jogador } from "@/storage/types/jogador";
+import { Categoria } from "@/entity/Categoria";
+import { Jogador } from "@/entity/Jogador";
+import { getJogadores } from "@/storage/jogadores.service";
 import { defineComponent } from "vue";
-import { getJogadores, setJogador } from "../../storage/jogadores-storage.service";
 
 export default defineComponent({
   props: {
@@ -139,6 +139,7 @@ export default defineComponent({
   components: {},
   methods: {
     iniciePartida() {
+      debugger;
       this.funcaoPlay(this.jogadores, this.quantidadePalavras);
     },
     segmentChanged(ev: any) {

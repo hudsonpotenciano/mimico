@@ -2,9 +2,10 @@ import { createRouter, createWebHistory } from "@ionic/vue-router";
 import { RouteRecordRaw } from "vue-router";
 import HomePage from "../views/HomePage.vue";
 import PlayPage from "../views/PlayPage.vue";
+import VencedorPage from "../views/VencedorPage.vue";
 import NovoGrupo from "../views/NovoGrupo.vue";
 import GruposPage from "../views/GruposPage.vue";
-import NovoJogador from "../views/NovoJogador.vue";
+import NovoJogador from "../views/NovoJogadorPage.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -17,19 +18,14 @@ const routes: Array<RouteRecordRaw> = [
     component: HomePage,
   },
   {
-    path: "/Grupos",
-    name: "Grupos",
-    component: GruposPage,
-  },
-  {
     path: "/play/:categoria",
     name: "Play",
     component: PlayPage,
   },
   {
-    path: "/NovoGrupo",
-    name: "NovoGrupo",
-    component: NovoGrupo,
+    path: "/vencedor/:partida",
+    name: "vencedor",
+    component: VencedorPage,
   },
   {
     path: "/NovoJogador",

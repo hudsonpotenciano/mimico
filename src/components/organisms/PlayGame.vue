@@ -12,6 +12,13 @@
           <ion-col size="10" class="ion-padding word-card ion-text-center">
             <ion-row class="ion-justify-content-center ion-align-items-center">
               <ion-col size="12">
+                <img
+                  :style="{ opacity: palavraVisivel ? 1 : 0 }"
+                  :src="palavraImageUrl"
+                  alt=""
+                />
+              </ion-col>
+              <ion-col size="12">
                 <h1 v-if="!palavraVisivel">
                   <span
                     v-for="index in palavrasDaCategoria[palavraIndex]?.length"
@@ -86,17 +93,42 @@
           </ion-button>
         </ion-row>
       </ion-col>
+      <ion-col size="12" v-if="palavraIndex > 0">
+        <ion-grid class="ion-padding">
+          <ion-row
+            class="ion-justify-content-center ion-align-items-center row-stop-button"
+          >
+            <ion-button
+              shape="round"
+              class="stop-button"
+              color="warning"
+              @click="alertEncerrarOpen = true"
+            >
+              <ion-icon slot="icon-only" name="trophy-outline"></ion-icon>
+            </ion-button>
+            <ion-label class="stop-label">Encerrar Partida</ion-label>
+          </ion-row>
+        </ion-grid>
+      </ion-col>
     </ion-row>
   </ion-grid>
-  <!-- //TODO - BOTÃO DE TERMINAR PARTIDA -->
+  <ion-alert
+    :is-open="alertEncerrarOpen"
+    header="Deseja encerrar a partida?"
+    :buttons="encerrarButtons"
+    @didDismiss="alertEncerrarOpen = false"
+  ></ion-alert>
 </template>
 
 <script lang="ts">
-import { Categoria } from "@/storage/types/categoria";
-import { Jogador } from "@/storage/types/jogador";
-import { PontuacaoPartida } from "@/storage/types/PontuacaoPartida";
+import { Categoria } from "@/entity/Categoria";
+import { Jogador } from "@/entity/Jogador";
+import { Partida } from "@/entity/Partida";
+import { PontuacaoPartida } from "@/entity/PontuacaoPartida";
+import { updateJogador } from "@/storage/jogadores.service";
+import { throwStatement } from "@babel/types";
+import axios from "axios";
 import { defineComponent } from "vue";
-import { updateJogador } from "../../storage/jogadores-storage.service";
 
 export default defineComponent({
   props: {
@@ -118,12 +150,35 @@ export default defineComponent({
       jogadorDaVez: {} as Jogador,
       jogadorIndex: 0,
       palavraIndex: 0,
+      palavraImageUrl: "",
       palavraVisivel: false,
       tempoRestante: 60,
       calcTempoRestanteInterval: 0,
       palavrasDaCategoria: [] as string[],
-      pontuacaoDaPartida: [] as PontuacaoPartida[],
+      partida: {} as Partida,
+      alertEncerrarOpen: false,
     };
+  },
+  computed: {
+    encerrarButtons() {
+      return [
+        {
+          text: "Não",
+          role: "cancel",
+          handler: () => {
+            this.alertEncerrarOpen = false;
+          },
+        },
+        {
+          text: "Sim",
+          role: "confirm",
+          handler: () => {
+            this.alertEncerrarOpen = false;
+            this.encerrePartida();
+          },
+        },
+      ];
+    },
   },
   components: {},
   methods: {
@@ -141,12 +196,25 @@ export default defineComponent({
       }, 1000);
     },
     vaParaProximaPalavra() {
-      alert("teste");
       clearInterval(this.calcTempoRestanteInterval);
       this.tempoRestante = 60;
       this.palavraVisivel = false;
       this.palavraIndex++;
+      this.busqueImagemDaPalavra();
       this.troqueProximoJogador();
+    },
+    busqueImagemDaPalavra() {
+      //to-do mudar para nomes em ingles
+      const palavra = this.palavrasDaCategoria[this.palavraIndex];
+
+      axios
+        .get(
+          "https://pixabay.com/api/?key=30935400-c6d2f9bdc7eec21025b944829&q=" +
+            palavra.toLowerCase()
+        )
+        .then((result: any) => {
+          this.palavraImageUrl = result.data.hits[0]?.previewURL;
+        });
     },
     troqueProximoJogador() {
       if (!this.jogadorDaVez) {
@@ -167,19 +235,18 @@ export default defineComponent({
       console.log(this.jogadorIndex);
     },
     async onSelectAcertou(jogador: Jogador) {
-      debugger;
       jogador.pontuacao++;
       await updateJogador(jogador);
 
-      this.pontuacaoDaPartida.forEach((jogadorPontuacao) => {
-        if (jogadorPontuacao.idJogador == jogador.id) {
+      this.partida.Pontuacao.forEach((jogadorPontuacao) => {
+        debugger;
+        if (jogadorPontuacao.Jogador.id == jogador.id) {
           jogadorPontuacao.pontuacao++;
         }
       });
 
       if (this.palavraIndex == this.quantidadePalavras) {
-        //TODO - Modal Vencedor
-        const vencedor = alert("");
+        this.encerrePartida();
       } else {
         this.vaParaProximaPalavra();
       }
@@ -187,11 +254,22 @@ export default defineComponent({
     clickAcertou() {
       clearInterval(this.calcTempoRestanteInterval);
     },
+    encerrePartida() {
+      this.$router.push("/vencedor/" + this.partida.Id);
+    },
   },
   mounted() {
+    debugger;
+    this.jogadores;
     this.palavrasDaCategoria = this.categoria?.palavras ?? [""];
-    this.pontuacaoDaPartida = this.jogadores.map((j) => new PontuacaoPartida(j.id, 0));
+    this.partida.Pontuacao = this.jogadores.map((j) => new PontuacaoPartida(j, 0));
     this.troqueProximoJogador();
+    this.busqueImagemDaPalavra();
+  },
+  beforeCreate() {
+    //todo criar partida no database
+    //atualizar id da partida
+    this.partida.Id = 1;
   },
 });
 </script>
@@ -199,14 +277,14 @@ export default defineComponent({
 .d-none {
   display: none;
 }
-.row-play-button {
+.row-stop-button {
   font-size: 1.2rem;
   flex-direction: column;
-  .play-label {
+  .stop-label {
     margin-top: 10px;
   }
 }
-.play-button {
+.stop-button {
   --border-radius: 100%;
   width: 100px;
   height: 100px;
@@ -263,5 +341,22 @@ export default defineComponent({
 
 .title {
   font-size: 1.2rem;
+}
+
+.row-play-button {
+  font-size: 1.2rem;
+  flex-direction: column;
+  .play-label {
+    margin-top: 10px;
+  }
+}
+.play-button {
+  --border-radius: 100%;
+  width: 100px;
+  height: 100px;
+  font-size: 2rem;
+
+  box-shadow: var(--custom-boxshadow);
+  border-radius: 100%;
 }
 </style>

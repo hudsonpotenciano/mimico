@@ -25,8 +25,8 @@
 import { defineComponent } from "vue";
 import PlayConfig from "../components/organisms/PlayConfig.vue";
 import PlayGame from "@/components/organisms/PlayGame.vue";
-import { getCategoria } from "@/storage/categorias-storage.service";
-import { Categoria } from "@/storage/types/categoria";
+import { Categoria } from "@/entity/Categoria";
+import { getCategoria } from "@/storage/categorias.service";
 
 export default defineComponent({
   name: "JogadoresPage",
@@ -48,7 +48,6 @@ export default defineComponent({
   },
   async mounted() {
     let params = this.$route.params.categoria;
-    debugger;
     this.categoria = await getCategoria(params as string);
   },
   components: { PlayConfig, PlayGame },

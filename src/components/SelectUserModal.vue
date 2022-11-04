@@ -47,8 +47,7 @@
   </ion-modal>
 </template>
 <script>
-import { getJogadores } from "../storage/jogadores-storage.service";
-// import { actionSheetController } from "@ionic/vue";
+import { getJogadores } from "@/storage/jogadores.service";
 
 export default {
   name: "SelectUserModal",
@@ -102,7 +101,6 @@ export default {
   methods: {
     modalDismiss() {
       if (this.onSelect) {
-        console.log(this.users);
         if (this.multipleSelect) {
           this.onSelect(this.users.filter((u) => u.isChecked));
         } else {

@@ -139,7 +139,6 @@ export default defineComponent({
   components: {},
   methods: {
     iniciePartida() {
-      debugger;
       this.funcaoPlay(this.jogadores, this.quantidadePalavras);
     },
     segmentChanged(ev: any) {

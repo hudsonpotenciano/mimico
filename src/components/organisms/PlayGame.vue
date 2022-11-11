@@ -126,9 +126,10 @@ import { Jogador } from "@/entity/Jogador";
 import { Partida } from "@/entity/Partida";
 import { PontuacaoPartida } from "@/entity/PontuacaoPartida";
 import { updateJogador } from "@/storage/jogadores.service";
-import { throwStatement } from "@babel/types";
 import axios from "axios";
 import { defineComponent } from "vue";
+
+import { useIonRouter } from "@ionic/vue";
 
 export default defineComponent({
   props: {
@@ -155,7 +156,7 @@ export default defineComponent({
       tempoRestante: 60,
       calcTempoRestanteInterval: 0,
       palavrasDaCategoria: [] as string[],
-      partida: {} as Partida,
+      partida: new Partida(1, [], new Date()),
       alertEncerrarOpen: false,
     };
   },
@@ -239,7 +240,6 @@ export default defineComponent({
       await updateJogador(jogador);
 
       this.partida.Pontuacao.forEach((jogadorPontuacao) => {
-        debugger;
         if (jogadorPontuacao.Jogador.id == jogador.id) {
           jogadorPontuacao.pontuacao++;
         }
@@ -255,21 +255,27 @@ export default defineComponent({
       clearInterval(this.calcTempoRestanteInterval);
     },
     encerrePartida() {
-      this.$router.push("/vencedor/" + this.partida.Id);
+      this.ionRouter.push("/vencedor/" + this.partida.Id);
     },
   },
   mounted() {
-    debugger;
     this.jogadores;
     this.palavrasDaCategoria = this.categoria?.palavras ?? [""];
     this.partida.Pontuacao = this.jogadores.map((j) => new PontuacaoPartida(j, 0));
     this.troqueProximoJogador();
     this.busqueImagemDaPalavra();
   },
-  beforeCreate() {
+
+  created() {
     //todo criar partida no database
     //atualizar id da partida
     this.partida.Id = 1;
+  },
+  setup() {
+    const ionRouter = useIonRouter();
+    return {
+      ionRouter,
+    };
   },
 });
 </script>

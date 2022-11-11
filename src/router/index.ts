@@ -3,8 +3,6 @@ import { RouteRecordRaw } from "vue-router";
 import HomePage from "../views/HomePage.vue";
 import PlayPage from "../views/PlayPage.vue";
 import VencedorPage from "../views/VencedorPage.vue";
-import NovoGrupo from "../views/NovoGrupo.vue";
-import GruposPage from "../views/GruposPage.vue";
 import NovoJogador from "../views/NovoJogadorPage.vue";
 
 const routes: Array<RouteRecordRaw> = [
@@ -24,7 +22,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/vencedor/:partida",
-    name: "vencedor",
+    name: "Vencedor",
     component: VencedorPage,
   },
   {

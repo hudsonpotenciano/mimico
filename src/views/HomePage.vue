@@ -1,10 +1,5 @@
 <template>
   <ion-page class="page">
-    <ion-header>
-      <ion-toolbar>
-        <ion-buttons slot="end"> teste </ion-buttons>
-      </ion-toolbar>
-    </ion-header>
     <ion-content :fullscreen="true">
       <ion-grid class="ion-padding">
         <ion-row>
@@ -28,12 +23,6 @@
         </ion-row>
       </ion-grid>
     </ion-content>
-    <ion-footer>
-      <p>versão 1.1</p>
-      <ion-button color="primary" @click="limpeTudo">
-        <ion-label>Reset Data</ion-label>
-      </ion-button>
-    </ion-footer>
   </ion-page>
 </template>
 

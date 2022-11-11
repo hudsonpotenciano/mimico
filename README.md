@@ -1,4 +1,4 @@
-# mimico
+# mimico - Aplicativo de mimica em grupo
 https://mimico-firebase.web.app/ (Mobile)
 
 ## Stack
